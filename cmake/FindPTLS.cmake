@@ -1,6 +1,6 @@
 # - Try to find Picotls in hsig_picotls dir @maxin
 
-set(HSIG_PICOTLS_DIR ../picotls)
+set(HSIG_PICOTLS_DIR ../hsig_picotls)
 
 if (PICOQUIC_FETCH_PTLS)
     set(PTLS_CORE_LIBRARY picotls-core)
@@ -14,7 +14,8 @@ if (PICOQUIC_FETCH_PTLS)
 
         if(PTLS_FOUND)
             set(PTLS_LIBRARIES ${PTLS_CORE_LIBRARY} ${PTLS_MINICRYPTO_LIBRARY})
-            set(PTLS_INCLUDE_DIRS ${PTLS_INCLUDE_DIR})
+            # add /hsig subdir for params.h @maxin
+            set(PTLS_INCLUDE_DIRS ${PTLS_INCLUDE_DIR} ${HSIG_PICOTLS_DIR}/hsig) 
             set(PTLS_WITH_FUSION_DEFAULT OFF)
         endif()
     else()
@@ -29,7 +30,7 @@ if (PICOQUIC_FETCH_PTLS)
             unset(PTLS_FUSION_LIBRARY)
         endif()
     endif()
-    set(PTLS_INCLUDE_DIRS ${HSIG_PICOTLS_DIR}/include)
+    set(PTLS_INCLUDE_DIRS ${HSIG_PICOTLS_DIR}/include ${HSIG_PICOTLS_DIR}/hsig)
 else(PICOQUIC_FETCH_PTLS)
     find_path(PTLS_INCLUDE_DIR
         NAMES picotls/openssl.h
@@ -75,7 +76,7 @@ else(PICOQUIC_FETCH_PTLS)
 
             if(PTLS_FOUND)
                 set(PTLS_LIBRARIES ${PTLS_CORE_LIBRARY} ${PTLS_OPENSSL_LIBRARY} ${PTLS_MINICRYPTO_LIBRARY})
-                set(PTLS_INCLUDE_DIRS ${PTLS_INCLUDE_DIR})
+                set(PTLS_INCLUDE_DIRS ${PTLS_INCLUDE_DIR} ${HSIG_PICOTLS_DIR}/hsig)
                 set(PTLS_WITH_FUSION_DEFAULT OFF)
             endif()
         else()
@@ -89,7 +90,7 @@ else(PICOQUIC_FETCH_PTLS)
 
             if(PTLS_FOUND)
                 set(PTLS_LIBRARIES ${PTLS_CORE_LIBRARY} ${PTLS_OPENSSL_LIBRARY} ${PTLS_FUSION_LIBRARY} ${PTLS_MINICRYPTO_LIBRARY})
-                set(PTLS_INCLUDE_DIRS ${PTLS_INCLUDE_DIR})
+                set(PTLS_INCLUDE_DIRS ${PTLS_INCLUDE_DIR} ${HSIG_PICOTLS_DIR}/hsig)
                 set(PTLS_WITH_FUSION_DEFAULT ON)
             endif()
         endif()
