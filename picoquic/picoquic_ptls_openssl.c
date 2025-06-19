@@ -117,7 +117,7 @@ static int set_openssl_sign_certificate_from_key(EVP_PKEY* pkey, ptls_context_t*
         ret = -1;
     }
     else {
-        ret = ptls_openssl_init_sign_certificate(signer, pkey);
+        ret = ptls_openssl_init_trad_sign_certificate(signer, pkey);
         ctx->sign_certificate = &signer->super;
     }
 
