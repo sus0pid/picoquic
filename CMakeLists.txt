@@ -527,7 +527,7 @@ install(TARGETS picoquic-core
 
 # add haraka,blake3 lib @maxin
 if(PICOQUIC_FETCH_PTLS)
-    set(LIB_PATH "${CMAKE_INSTALL_LIBDIR}/libpicoquic-core.a;${CMAKE_INSTALL_LIBDIR}/libpicotls-core.a;${CMAKE_INSTALL_LIBDIR}/libpicotls-fusion.a;${CMAKE_INSTALL_LIBDIR}/libpicotls-openssl.a;${CMAKE_INSTALL_LIBDIR}/libpicotls-minicrypto.a";${CMAKE_INSTALL_LIBDIR}/libharaka.a;${CMAKE_INSTALL_LIBDIR}/libblake3.a"" CACHE PATH "Path of library files")
+    set(LIB_PATH "${CMAKE_INSTALL_LIBDIR}/libpicoquic-core.a;${CMAKE_INSTALL_LIBDIR}/libpicotls-core.a;${CMAKE_INSTALL_LIBDIR}/libpicotls-fusion.a;${CMAKE_INSTALL_LIBDIR}/libpicotls-openssl.a;${CMAKE_INSTALL_LIBDIR}/libpicotls-minicrypto.a" CACHE PATH "Path of library files")
 
     install(TARGETS ${PTLS_LIBRARIES}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
