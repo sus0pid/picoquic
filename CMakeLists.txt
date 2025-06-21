@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.13)
 
+# Set flags specifically for Debug builds @maxin
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Debug build: stripping optimizations and enabling -g")
+    set(CMAKE_C_FLAGS_DEBUG "-O0 -g" PARENT_SCOPE)
+    set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g" PARENT_SCOPE)
+endif()
+
 # Building tests by default depends on whether this is a subproject
 if(DEFINED PROJECT_NAME)
     option(picoquic_BUILD_TESTS "Build Tests for picoquic" OFF)
