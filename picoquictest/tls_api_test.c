@@ -1128,7 +1128,7 @@ int tls_api_init_ctx_ex2(picoquic_test_tls_api_ctx_t** pctx, uint32_t proposed_v
 #ifdef _WINDOWS
             test_ctx->client_addr.sin_addr.S_un.S_addr = htonl(0x0A000002);
 #else
-            test_ctx->client_addr.sin_addr.s_addr = htonl(0x0A000002);
+            test_ctx->client_addr.sin_addr.s_addr = htonl(0x0A000002); //client ip: 10.0.0.2
 #endif
             test_ctx->client_addr.sin_port = 1234;
 
@@ -1137,7 +1137,7 @@ int tls_api_init_ctx_ex2(picoquic_test_tls_api_ctx_t** pctx, uint32_t proposed_v
 #ifdef _WINDOWS
             test_ctx->server_addr.sin_addr.S_un.S_addr = htonl(0x0A000001);
 #else
-            test_ctx->server_addr.sin_addr.s_addr = htonl(0x0A000001);
+            test_ctx->server_addr.sin_addr.s_addr = htonl(0x0A000001); //server ip: 10.0.0.1
 #endif
             test_ctx->server_addr.sin_port = 4321;
 
@@ -1145,6 +1145,7 @@ int tls_api_init_ctx_ex2(picoquic_test_tls_api_ctx_t** pctx, uint32_t proposed_v
             test_ctx->qclient = picoquic_create(8, NULL, NULL, test_server_cert_store_file, NULL, test_api_callback,
                 (void*)&test_ctx->client_callback, NULL, NULL, NULL, *p_simulated_time,
                 p_simulated_time, ticket_file_name, NULL, 0);
+            printf("[%s] picoquic client ctx created, @line%d\n", __func__, __LINE__);
 
             if (token_file_name != NULL) {
                 (void)picoquic_load_token_file(test_ctx->qclient, token_file_name);
@@ -1156,6 +1157,7 @@ int tls_api_init_ctx_ex2(picoquic_test_tls_api_ctx_t** pctx, uint32_t proposed_v
                 *p_simulated_time, p_simulated_time, NULL,
                 (use_bad_crypt == 0) ? test_ticket_encrypt_key : test_ticket_badcrypt_key,
                 (use_bad_crypt == 0) ? sizeof(test_ticket_encrypt_key) : sizeof(test_ticket_badcrypt_key));
+            printf("[%s] picoquic server ctx created, @line%d\n", __func__, __LINE__);
 
             if (test_ctx->qclient == NULL || test_ctx->qserver == NULL) {
                 ret = -1;

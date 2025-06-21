@@ -175,6 +175,8 @@ void picoquic_tls_api_init_providers(int unload)
         picoquic_mbedtls_load(unload);
     }
 #endif
+    printf("[%s] picoquic loaded openssl libs, @line%d\n", __func__, __LINE__);
+
 }
 
 static void picoquic_tls_api_zero()
@@ -312,6 +314,7 @@ void picoquic_register_verify_certificate_fn(picoquic_get_certificate_verifier_t
     picoquic_dispose_certificate_verifier_t dispose_certificate_verifier_fn,
     picoquic_set_tls_root_certificates_t set_tls_root_certificates_fn)
 {
+    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     picoquic_get_certificate_verifier_fn = certificate_verifier_fn;
     picoquic_dispose_certificate_verifier_fn = dispose_certificate_verifier_fn;
     picoquic_set_tls_root_certificates_fn = set_tls_root_certificates_fn;
@@ -569,15 +572,18 @@ static void picoquic_set_random_provider_in_ctx(ptls_context_t* ctx)
 static int set_private_key_from_file(char const* keypem, ptls_context_t* ctx)
 {
     if (picoquic_set_private_key_from_file_fn == NULL) {
+        printf("[%s] set private key but the function was NULL, @line%d\n", __func__, __LINE__);
         return -1;
     }
     else {
+        printf("[%s] set private key with the stupid function picoquic_set_private_key_from_file_fn, @line%d\n", __func__, __LINE__);
         return picoquic_set_private_key_from_file_fn(keypem, ctx);
     }
 }
 
 int picoquic_set_private_key_from_file(picoquic_quic_t* quic, char const* file_name)
 {
+    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     return set_private_key_from_file(file_name, quic->tls_master_ctx);
 }
 
@@ -585,6 +591,7 @@ int picoquic_set_private_key_from_file(picoquic_quic_t* quic, char const* file_n
 */
 void picoquic_dispose_sign_certificate(ptls_context_t* ctx)
 {
+    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     if (ctx->sign_certificate != NULL) {
         if (picoquic_dispose_sign_certificate_fn != NULL) {
             /* we expect the dispose function to free dependencies,
@@ -600,6 +607,7 @@ void picoquic_dispose_sign_certificate(ptls_context_t* ctx)
  */
 ptls_iovec_t* picoquic_get_certs_from_file(char const* file_name, size_t * count)
 {
+    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     if (picoquic_get_certs_from_file_fn == NULL) {
         return NULL;
     }
@@ -612,7 +620,9 @@ ptls_iovec_t* picoquic_get_certs_from_file(char const* file_name, size_t * count
 ptls_verify_certificate_t* picoquic_get_certificate_verifier(char const* cert_root_file_name,
     unsigned int* is_cert_store_not_empty, picoquic_free_verify_certificate_ctx * p_free_certificate_verifier_fn)
 {
+    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     if (picoquic_get_certificate_verifier_fn == NULL) {
+        printf("[%s] set verify store while function was NULL, @line%d\n", __func__, __LINE__);
         return NULL;
     }
     else {
@@ -626,6 +636,7 @@ ptls_verify_certificate_t* picoquic_get_certificate_verifier(char const* cert_ro
  * callback is installed, to allow replacing one type of callback by another.
  */
 void picoquic_dispose_certificate_verifier(ptls_verify_certificate_t* verifier) {
+    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     if (picoquic_dispose_certificate_verifier_fn != NULL) {
         picoquic_dispose_certificate_verifier_fn(verifier);
     }
@@ -634,6 +645,8 @@ void picoquic_dispose_certificate_verifier(ptls_verify_certificate_t* verifier) 
 /* Set the list of root certificates used by the client. */
 int picoquic_set_tls_root_certificates(picoquic_quic_t* quic, ptls_iovec_t* certs, size_t count)
 {
+    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
+
     int ret = -1;
 
     if (picoquic_set_tls_root_certificates_fn != NULL) {
@@ -1668,6 +1681,7 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
     const uint8_t* ticket_key, size_t ticket_key_length)
 {
     /* Create a client context or a server context */
+    printf("[%s] creating a client/server tls context... @line%d\n", __func__, __LINE__);
     int ret = 0;
     ptls_context_t* ctx;
     ptls_on_client_hello_t* och = NULL;
@@ -1765,6 +1779,7 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
         }
 
         if (ret == 0) {
+            printf("[%s] setting up certificate verify store, @line%d\n", __func__, __LINE__);
             ctx->verify_certificate = picoquic_get_certificate_verifier(cert_root_file_name,
                 &is_cert_store_not_empty, (picoquic_free_verify_certificate_ctx*)
                 &quic->free_verify_certificate_callback_fn);
@@ -1789,6 +1804,7 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
 
         if (ret == 0) {
             quic->tls_master_ctx = ctx;
+            printf("[%s] tls master ctx has been created, @line%d\n", __func__, __LINE__);
             picoquic_public_random_seed(quic);
         } else {
             quic->tls_master_ctx = ctx;
