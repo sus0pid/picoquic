@@ -1377,6 +1377,7 @@ picoquictest_sim_link_t* tls_api_get_target_link(struct sockaddr_storage * addr_
     struct sockaddr * dest_addr2,
     picoquictest_sim_link_t* sim_link1, picoquictest_sim_link_t* sim_link2)
 {
+    printf("[%s] compare addresses, @line%d\n", __func__ , __LINE__);
     picoquictest_sim_link_t* target_link = sim_link1;
     if (sim_link2 != NULL &&
         picoquic_compare_addr(dest_addr2, (struct sockaddr *)addr_to) == 0) {
@@ -1390,6 +1391,8 @@ static void tls_api_static_departure(picoquic_test_tls_api_ctx_t* test_ctx,
     int * was_active, size_t * send_length, size_t * p_segment_size,
     picoquictest_sim_link_t** target_link)
 {
+    printf("[%s] not very sure, @line%d\n", __func__ , __LINE__);
+
     picoquic_stateless_packet_t* sp = picoquic_dequeue_stateless_packet(test_ctx->qserver);
 
     if (sp != NULL) {
@@ -1532,6 +1535,7 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
         do {
             continue_dequeue = 0;
             next_action = sim_action_none;
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
             if (test_ctx->cnx_client->cnx_state != picoquic_state_disconnected) {
                 uint64_t client_departure = test_ctx->cnx_client->next_wake_time;
                 if (client_departure < test_ctx->client_endpoint.next_time_ready) {
@@ -1543,6 +1547,8 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
                 }
             }
 
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
+
             if (test_ctx->cnx_server != NULL && test_ctx->cnx_server->cnx_state != picoquic_state_disconnected) {
                 uint64_t server_departure = test_ctx->cnx_server->next_wake_time;
                 if (server_departure < test_ctx->server_endpoint.next_time_ready) {
@@ -1553,6 +1559,8 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
                     next_action = sim_action_server_departure;
                 }
             }
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
+
 
             client_arrival = picoquictest_sim_link_next_arrival(test_ctx->s_to_c_link, next_time);
             if (client_arrival < next_time) {
@@ -1560,11 +1568,15 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
                 next_action = sim_action_client_arrival;
             }
 
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
+
             server_arrival = picoquictest_sim_link_next_arrival(test_ctx->c_to_s_link, next_time);
             if (server_arrival < next_time) {
                 next_time = server_arrival;
                 next_action = sim_action_server_arrival;
             }
+
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
 
             if (test_ctx->s_to_c_link_2 != NULL) {
                 uint64_t client_arrival_2 = picoquictest_sim_link_next_arrival(test_ctx->s_to_c_link_2, next_time);
@@ -1574,6 +1586,8 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
                 }
             }
 
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
+
             if (test_ctx->c_to_s_link_2 != NULL) {
                 uint64_t server_arrival_2 = picoquictest_sim_link_next_arrival(test_ctx->c_to_s_link_2, next_time);
                 if (server_arrival_2 < next_time) {
@@ -1581,6 +1595,7 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
                     next_action = sim_action_server_arrival2;
                 }
             }
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
 
             if (test_ctx->client_endpoint.first_packet != NULL &&
                 test_ctx->client_endpoint.next_time_ready <= next_time &&
@@ -1590,6 +1605,7 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
                 next_time = test_ctx->client_endpoint.next_time_ready;
                 next_action = sim_action_client_dequeue;
             }
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
 
             if (test_ctx->server_endpoint.first_packet != NULL &&
                 test_ctx->server_endpoint.next_time_ready <= next_time &&
@@ -1599,7 +1615,8 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
                 next_time = test_ctx->server_endpoint.next_time_ready;
                 next_action = sim_action_server_dequeue;
             }
-            
+            printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
+
             if (next_action >= sim_action_client_arrival && next_action <= sim_action_server_arrival2) {
                 /* packet arrival at one of the endpoints */
                 tls_api_endpoint_arrival(test_ctx, next_action, next_time);
@@ -1627,17 +1644,20 @@ int tls_api_one_sim_round(picoquic_test_tls_api_ctx_t* test_ctx,
             size_t * p_segment_size = (test_ctx->use_udp_gso) ? &segment_size : NULL;
 
             if (next_action == sim_action_stateless_packet) {
+                printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
                 tls_api_static_departure(test_ctx, &addr_from, &addr_to,
                     was_active, &send_length, p_segment_size,
                     &target_link);
             }
             else if (next_action == sim_action_client_departure) {
+                printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
                 /* check whether the client has something to send */
                 ret = tls_api_client_departure(test_ctx, &addr_from, &addr_to,
                     was_active, &send_length, p_segment_size, &target_link,
                     *simulated_time);
             }
             else if (next_action == sim_action_server_departure) {
+                printf("[%s] next_action = %d, @line%d\n", __func__, __LINE__);
                 ret = tls_api_server_departure(test_ctx, &addr_from, &addr_to,
                     was_active, &send_length, p_segment_size,
                     &target_link, *simulated_time);

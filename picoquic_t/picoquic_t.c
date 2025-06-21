@@ -121,7 +121,7 @@ static const picoquic_test_def_t test_table[] = {
 //    /* The TLS API connect test is only useful when debugging issues step by step */
     { "tls_api_connect", tls_api_connect_test },
 #endif
-//    { "tls_api", tls_api_test }, // TODO: test later @maxin
+    { "tls_api", tls_api_test }, // TODO: test later @maxin
 //    { "tls_api_inject_hs_ack", tls_api_inject_hs_ack_test },
 //    { "null_sni", null_sni_test },
 //    { "silence_test", tls_api_silence_test },
@@ -418,7 +418,7 @@ static const picoquic_test_def_t test_table[] = {
 //    { "cert_verify_bad_sni", cert_verify_bad_sni_test },
 //    { "cert_verify_null", cert_verify_null_test },
 //    { "cert_verify_null_sni", cert_verify_null_sni_test },
-//    { "cert_verify_rsa", cert_verify_rsa_test },
+    { "cert_verify_rsa", cert_verify_rsa_test },
 //    { "cid_quiescence", cid_quiescence_test },
 //    { "client_auth", request_client_authentication_test },
 //    { "client_cert_callback", set_verify_certificate_callback_test },

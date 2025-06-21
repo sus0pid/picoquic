@@ -620,7 +620,7 @@ ptls_iovec_t* picoquic_get_certs_from_file(char const* file_name, size_t * count
 ptls_verify_certificate_t* picoquic_get_certificate_verifier(char const* cert_root_file_name,
     unsigned int* is_cert_store_not_empty, picoquic_free_verify_certificate_ctx * p_free_certificate_verifier_fn)
 {
-    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
+    printf("[%s] client set up certificate verifier, @line%d\n", __func__, __LINE__);
     if (picoquic_get_certificate_verifier_fn == NULL) {
         printf("[%s] set verify store while function was NULL, @line%d\n", __func__, __LINE__);
         return NULL;

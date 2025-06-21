@@ -3893,7 +3893,7 @@ int picoquic_prepare_packet_ex(picoquic_cnx_t* cnx,
     uint64_t current_time, uint8_t* send_buffer, size_t send_buffer_max, size_t* send_length,
     struct sockaddr_storage * p_addr_to, struct sockaddr_storage * p_addr_from, int* if_index, size_t* send_msg_size)
 {
-
+    printf("[%s] prepare packet to send, @line%d\n", __func__, __LINE__);
     int ret = 0;
     picoquic_packet_t * packet = NULL;
     uint64_t initial_next_time;

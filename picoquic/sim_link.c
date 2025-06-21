@@ -94,6 +94,7 @@ picoquictest_sim_packet_t* picoquictest_sim_link_create_packet()
 
 uint64_t picoquictest_sim_link_next_arrival(picoquictest_sim_link_t* link, uint64_t current_time)
 {
+    printf("[%s] not sure what this is doing, @line%d\n", __func__, __LINE__);
     picoquictest_sim_packet_t* packet = link->first_packet;
 
     if (packet != NULL && packet->arrival_time < current_time) {
