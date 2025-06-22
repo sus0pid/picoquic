@@ -1377,7 +1377,7 @@ picoquictest_sim_link_t* tls_api_get_target_link(struct sockaddr_storage * addr_
     struct sockaddr * dest_addr2,
     picoquictest_sim_link_t* sim_link1, picoquictest_sim_link_t* sim_link2)
 {
-    printf("[%s] compare addresses, @line%d\n", __func__ , __LINE__);
+//    printf("[%s] compare addresses, @line%d\n", __func__ , __LINE__);
     picoquictest_sim_link_t* target_link = sim_link1;
     if (sim_link2 != NULL &&
         picoquic_compare_addr(dest_addr2, (struct sockaddr *)addr_to) == 0) {
