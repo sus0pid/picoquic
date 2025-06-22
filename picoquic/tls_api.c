@@ -314,7 +314,7 @@ void picoquic_register_verify_certificate_fn(picoquic_get_certificate_verifier_t
     picoquic_dispose_certificate_verifier_t dispose_certificate_verifier_fn,
     picoquic_set_tls_root_certificates_t set_tls_root_certificates_fn)
 {
-    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
+    printf("[%s] mark, @line%d\n", __func__, __LINE__);
     picoquic_get_certificate_verifier_fn = certificate_verifier_fn;
     picoquic_dispose_certificate_verifier_fn = dispose_certificate_verifier_fn;
     picoquic_set_tls_root_certificates_fn = set_tls_root_certificates_fn;
@@ -576,14 +576,12 @@ static int set_private_key_from_file(char const* keypem, ptls_context_t* ctx)
         return -1;
     }
     else {
-        printf("[%s] set private key with the stupid function picoquic_set_private_key_from_file_fn, @line%d\n", __func__, __LINE__);
         return picoquic_set_private_key_from_file_fn(keypem, ctx);
     }
 }
 
 int picoquic_set_private_key_from_file(picoquic_quic_t* quic, char const* file_name)
 {
-    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     return set_private_key_from_file(file_name, quic->tls_master_ctx);
 }
 
@@ -591,7 +589,6 @@ int picoquic_set_private_key_from_file(picoquic_quic_t* quic, char const* file_n
 */
 void picoquic_dispose_sign_certificate(ptls_context_t* ctx)
 {
-    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     if (ctx->sign_certificate != NULL) {
         if (picoquic_dispose_sign_certificate_fn != NULL) {
             /* we expect the dispose function to free dependencies,
@@ -607,7 +604,6 @@ void picoquic_dispose_sign_certificate(ptls_context_t* ctx)
  */
 ptls_iovec_t* picoquic_get_certs_from_file(char const* file_name, size_t * count)
 {
-    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
     if (picoquic_get_certs_from_file_fn == NULL) {
         return NULL;
     }
@@ -636,7 +632,7 @@ ptls_verify_certificate_t* picoquic_get_certificate_verifier(char const* cert_ro
  * callback is installed, to allow replacing one type of callback by another.
  */
 void picoquic_dispose_certificate_verifier(ptls_verify_certificate_t* verifier) {
-    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
+    printf("[%s] mark here, @line%d\n", __func__, __LINE__);
     if (picoquic_dispose_certificate_verifier_fn != NULL) {
         picoquic_dispose_certificate_verifier_fn(verifier);
     }
@@ -645,7 +641,7 @@ void picoquic_dispose_certificate_verifier(ptls_verify_certificate_t* verifier) 
 /* Set the list of root certificates used by the client. */
 int picoquic_set_tls_root_certificates(picoquic_quic_t* quic, ptls_iovec_t* certs, size_t count)
 {
-    printf("[%s] what the fuck, @line%d\n", __func__, __LINE__);
+    printf("[%s] mark here, @line%d\n", __func__, __LINE__);
 
     int ret = -1;
 
