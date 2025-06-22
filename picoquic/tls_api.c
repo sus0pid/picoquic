@@ -616,7 +616,7 @@ ptls_iovec_t* picoquic_get_certs_from_file(char const* file_name, size_t * count
 ptls_verify_certificate_t* picoquic_get_certificate_verifier(char const* cert_root_file_name,
     unsigned int* is_cert_store_not_empty, picoquic_free_verify_certificate_ctx * p_free_certificate_verifier_fn)
 {
-    printf("[%s] client set up certificate verifier, @line%d\n", __func__, __LINE__);
+//    printf("[%s] client set up certificate verifier, @line%d\n", __func__, __LINE__);
     if (picoquic_get_certificate_verifier_fn == NULL) {
         printf("[%s] set verify store while function was NULL, @line%d\n", __func__, __LINE__);
         return NULL;
@@ -1677,7 +1677,7 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
     const uint8_t* ticket_key, size_t ticket_key_length)
 {
     /* Create a client context or a server context */
-    printf("[%s] creating a client/server tls context... @line%d\n", __func__, __LINE__);
+//    printf("[%s] creating a client/server tls context... @line%d\n", __func__, __LINE__);
     int ret = 0;
     ptls_context_t* ctx;
     ptls_on_client_hello_t* och = NULL;
@@ -1775,7 +1775,7 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
         }
 
         if (ret == 0) {
-            printf("[%s] setting up certificate verify store, @line%d\n", __func__, __LINE__);
+//            printf("[%s] setting up certificate verify store, @line%d\n", __func__, __LINE__);
             ctx->verify_certificate = picoquic_get_certificate_verifier(cert_root_file_name,
                 &is_cert_store_not_empty, (picoquic_free_verify_certificate_ctx*)
                 &quic->free_verify_certificate_callback_fn);
@@ -1800,7 +1800,7 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
 
         if (ret == 0) {
             quic->tls_master_ctx = ctx;
-            printf("[%s] tls master ctx has been created, @line%d\n", __func__, __LINE__);
+//            printf("[%s] tls master ctx has been created, @line%d\n", __func__, __LINE__);
             picoquic_public_random_seed(quic);
         } else {
             quic->tls_master_ctx = ctx;
