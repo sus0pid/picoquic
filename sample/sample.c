@@ -49,7 +49,7 @@
 static void usage(char const * sample_name)
 {
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "    %s client server_name port folder *queried_file\n", sample_name);
+    fprintf(stderr, "    %s client server_ip port folder *queried_file\n", sample_name);
     fprintf(stderr, "    %s background server_name port folder\n", sample_name);
     fprintf(stderr, "or :\n");
     fprintf(stderr, "    %s server port cert_file private_key_file folder\n", sample_name);
@@ -105,6 +105,7 @@ int main(int argc, char** argv)
             usage(argv[0]);
         }
         else {
+            /* TODO: handle server_ip */
             int server_port = get_port(argv[0], argv[2]);
             exit_code = picoquic_sample_server(server_port, argv[3], argv[4], argv[5]);
         }

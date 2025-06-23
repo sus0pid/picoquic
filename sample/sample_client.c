@@ -462,6 +462,7 @@ static int sample_client_init(char const* server_name, int server_port, char con
         else if (is_name) {
             sni = server_name;
         }
+        DBG_PRINTF("[%s] sni = %s, @line%d\n", __func__, sni, __LINE__);
     }
 
     /* Create a QUIC context. It could be used for many connections, but in this sample we
