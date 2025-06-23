@@ -67,6 +67,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "picoquic_unified_log.h"
+#include "ptls_utilities.h"
 
 #define container_of(ptr, type, member) ((type *)((char *)(ptr) - offsetof(type, member)))
 
@@ -1726,6 +1727,7 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
             }
 
             if (cert_file_name != NULL && key_file_name != NULL) {
+                DBG_PRINTF("[%s] cert_file_name != NULL && key_file_name != NULL, setting up cert and key\n", __func__);
                 /* Read the certificate file */
                 if (ptls_load_certificates(ctx, (char*)cert_file_name) != 0) {
                     DBG_PRINTF("Cannot load certificate: %s", cert_file_name);
@@ -1779,6 +1781,7 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
             ctx->verify_certificate = picoquic_get_certificate_verifier(cert_root_file_name,
                 &is_cert_store_not_empty, (picoquic_free_verify_certificate_ctx*)
                 &quic->free_verify_certificate_callback_fn);
+//            ptls_openssl_init_verify_certificate
             quic->is_cert_store_not_empty = is_cert_store_not_empty;
         }
 

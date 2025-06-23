@@ -232,6 +232,8 @@ ptls_iovec_t* picoquic_openssl_get_certs_from_file(char const * file_name, size_
 }
 
 /* Use openssl functions to create a certficate verifier */
+/* typedef ptls_verify_certificate_t* (*picoquic_get_certificate_verifier_t)(char const* cert_root_file_name,
+        unsigned int* is_cert_store_not_empty, picoquic_dispose_certificate_verifier_t * free_certificate_verifier_fn); @xinshu*/
 ptls_openssl_verify_certificate_t* picoquic_openssl_get_openssl_certificate_verifier(char const * cert_root_file_name,
     unsigned int * is_cert_store_not_empty)
 {
