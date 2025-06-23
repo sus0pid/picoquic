@@ -241,7 +241,7 @@ ptls_openssl_verify_certificate_t* picoquic_openssl_get_openssl_certificate_veri
     if (verifier != NULL) {
         X509_STORE* store = X509_STORE_new();
 
-        if (cert_root_file_name != NULL && store != NULL) {
+        if (cert_root_file_name != NULL && store != NULL) { /*observation: skipped this branch, jump to line254 @xinshu*/
             int file_ret = 0;
             X509_LOOKUP* lookup = X509_STORE_add_lookup(store, X509_LOOKUP_file());
             if ((file_ret = X509_LOOKUP_load_file(lookup, cert_root_file_name, X509_FILETYPE_PEM)) == 1) {
@@ -251,7 +251,7 @@ ptls_openssl_verify_certificate_t* picoquic_openssl_get_openssl_certificate_veri
 #ifdef PTLS_OPENSSL_VERIFY_CERTIFICATE_ENABLE_OVERRIDE
         ptls_openssl_init_verify_certificate(verifier, store, NULL);
 #else
-        ptls_openssl_init_verify_certificate(verifier, store);
+        ptls_openssl_init_verify_certificate(verifier, store); /* call ptls init function @xinshu*/
 #endif
 
         // If we created an instance of the store, release our reference after giving it to the verify_certificate callback.

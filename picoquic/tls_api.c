@@ -1777,11 +1777,13 @@ int picoquic_master_tlscontext(picoquic_quic_t* quic,
         }
 
         if (ret == 0) {
-//            printf("[%s] setting up certificate verify store, @line%d\n", __func__, __LINE__);
-            ctx->verify_certificate = picoquic_get_certificate_verifier(cert_root_file_name,
-                &is_cert_store_not_empty, (picoquic_free_verify_certificate_ctx*)
-                &quic->free_verify_certificate_callback_fn);
-//            ptls_openssl_init_verify_certificate
+            /* comment out the picoquic code, use the direct way to set up verify_certificate @xinshu */
+//            ctx->verify_certificate = picoquic_get_certificate_verifier(cert_root_file_name,
+//                &is_cert_store_not_empty, (picoquic_free_verify_certificate_ctx*)
+//                &quic->free_verify_certificate_callback_fn);
+//
+//          ptls_openssl_init_verify_certificate
+            ret = setup_picoquic_certificate_verifier(ctx, &is_cert_store_not_empty);
             quic->is_cert_store_not_empty = is_cert_store_not_empty;
         }
 
